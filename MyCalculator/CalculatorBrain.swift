@@ -17,61 +17,121 @@ enum operations: String {
     case ac = "AC"
 
 }
-class CalculatorBrain {
-    
-    private var accumulator: Double = 0
-    private var history: String = ""
-    private var historySecond: String = ""
-    private var lastOperation: String = ""
 
-    func add(num: Double) -> Double{
-        accumulator += num
+private enum LastOperation {
+    case Digit
+    case BinaryOperation
+    case Equals
+    case Clear
+}
+
+class CalculatorBrain {
+    var accumulator: Double = 0
+    
+    var historyArray: [Double] = []
+
+    var history: String = ""
+//    private var lastOperation: LastOperation = .Clear
+    var lastOperation: String = ""
+
+    var numOnScreen: Double = 0
+    var previousNumber:Double = 0
+    var result:Double = 0
+
+    func add() -> Double{
+//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
+//            return acc + current
+//        })
+        accumulator =  (previousNumber + numOnScreen)
         return accumulator
     }
     
-    func multiply(num: Double) -> Double{
-        accumulator = accumulator * num
+    func multiply() -> Double{
+//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
+//            return acc * current
+//        })
+        accumulator =  (previousNumber * numOnScreen)
+
         return accumulator
     }
     
-    func minus(num: Double) -> Double{
-        accumulator = accumulator - num
+    func minus() -> Double{
+//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
+//            return acc - current
+//        })
+        accumulator = (previousNumber - numOnScreen)
         return accumulator
     }
-    func divide(num: Double) -> Double{
-        accumulator =  accumulator / num
+    func divide() -> Double{
+//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
+//            return acc / current
+//        })
+        accumulator = (previousNumber / numOnScreen)
+
         return accumulator
     }
     
-//    func doOperation(operation: String) -> String {
-//        var screenText  = "" //initilais screen text
-//        history = "" // clear history
-//        if operation == "="{
-//            screenText = doFunction(operation: lastOperation) //want to display result on screen
-//        } else {
-//            lastOperation = operation
-//        }
-//        return screenText
-//    }
-    
-//    func doFunction(operation: String) -> String {
     func doOperation(operation: String) -> String {
-        var screenText  = ""
+        var screenText  = "" //initilais screen text
         history = "" // clear history
+        if operation == "=" || operation == "" || operation == "ac"{
+        } else {
+            previousNumber = self.getNumber()
+        }
+        return self.getNumberString()
+    }
+    
+    func doFunction(operation: String) -> String {
+        var screenText  = ""
+        
+        if historyArray.count - 2 >= 0 {
+            previousNumber = historyArray[historyArray.count-2]
+        }
+        numOnScreen = historyArray[historyArray.count-1]
+
         switch operation {
         case operations.plus.rawValue:
-            screenText = String(add(num:accumulator))
+            lastOperation = "+"
+            screenText = operations.plus.rawValue
         case operations.minus.rawValue:
-            screenText = String(minus(num: accumulator))
+            screenText = operations.minus.rawValue
+            lastOperation = "-"
+
         case operations.divide.rawValue:
-            screenText = String(divide(num: accumulator))
+            screenText = operations.divide.rawValue
+            lastOperation = "/"
+
             break
         case operations.multiply.rawValue:
-            screenText = String(multiply(num: accumulator))
+            screenText = operations.multiply.rawValue
+            lastOperation = "*"
+
+            break
+        case operations.equals.rawValue:
+            
+            if lastOperation == "+" {
+                screenText = String(add())
+            } else if lastOperation == "-" {
+                screenText = String(minus())
+            }  else if lastOperation == "/" {
+                screenText = String(divide())
+            }  else if lastOperation == "*" {
+                screenText = String(multiply())
+            } else {
+                screenText = ""
+            }
+            historyArray.append(accumulator)
+            break
+        case operations.ac.rawValue:
+            screenText = ""
+            historyArray = []
+            previousNumber = 0
+            numOnScreen = 0
             break
         default:
             break
         }
+        
         return screenText
     }
     
@@ -79,6 +139,12 @@ class CalculatorBrain {
         history.append(value)
     }
     
+//    func setOperand(operand: Double) {
+//        accumulator = operand
+//        historyArray.append(String(operand))
+//        lastOperation = .Digit
+//    }
+
     func getNumberString() -> String{
         return history
     }

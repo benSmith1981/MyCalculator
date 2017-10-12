@@ -12,10 +12,21 @@ class CalculatorViewController: UIViewController {
 
     @IBOutlet weak var screen: UITextField!
     var calculatorBrain: CalculatorBrain!
-    
+    var userIsInTheMiddleOfTyping: Bool = false
+    private var displayValue: Double {
+        get {
+            return Double(screen.text!)!
+        }
+        
+        set {
+            screen.text = String(newValue)
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        CalculatorBrain.price
         calculatorBrain = CalculatorBrain()
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -23,17 +34,43 @@ class CalculatorViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     @IBAction func numberButton(_ sender: UIButton) {
-        if let number = sender.titleLabel?.text {
-            calculatorBrain.appendHistory(value: number)
-            screen.text = calculatorBrain.getNumberString()
+        if let digit = sender.titleLabel?.text {
+            
+            if userIsInTheMiddleOfTyping {
+                screen.text = screen.text! + digit
+                calculatorBrain.numOnScreen = Double(screen.text!)!
+            } else {
+                screen.text = digit
+                calculatorBrain.numOnScreen = Double(screen.text!)!
+
+            }
+            userIsInTheMiddleOfTyping = true
+        
         }
     }
     
     @IBAction func operationButton(_ sender: UIButton) {
         if let operation = sender.titleLabel?.text {
-//            calculatorBrain.appendHistory(value: operation)
-            screen.text = calculatorBrain.doOperation(operation: operation)
+            
+
+            if (userIsInTheMiddleOfTyping) {
+                //then we update the numebr array
+                if let text = screen.text , let num = Double(text) {
+                    calculatorBrain.historyArray.append(num)
+//                    calculatorBrain.previousNumber = num
+
+                }
+                userIsInTheMiddleOfTyping = false
+            }
+            
+            if operation != "=" && operation != "ac" {
+                calculatorBrain.lastOperation = operation
+            }
+            screen.text = calculatorBrain.doFunction(operation: operation)
+            
         }
     }
 
