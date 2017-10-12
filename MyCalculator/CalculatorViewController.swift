@@ -54,21 +54,15 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func operationButton(_ sender: UIButton) {
         if let operation = sender.titleLabel?.text {
-            
-
+            //if the user is in the middle of typing and they pushed + - / * then we store the previous number in our array
             if (userIsInTheMiddleOfTyping) {
-                //then we update the numebr array
+                //then we update the number array, if it is a number (dont' add operators + - / * )
                 if let text = screen.text , let num = Double(text) {
                     calculatorBrain.historyArray.append(num)
-//                    calculatorBrain.previousNumber = num
-
                 }
                 userIsInTheMiddleOfTyping = false
             }
-            
-            if operation != "=" && operation != "ac" {
-                calculatorBrain.lastOperation = operation
-            }
+            //now tell calculator to do its function! Returned result printed to screen
             screen.text = calculatorBrain.doFunction(operation: operation)
             
         }

@@ -18,97 +18,96 @@ enum operations: String {
 
 }
 
-private enum LastOperation {
-    case Digit
-    case BinaryOperation
-    case Equals
-    case Clear
-}
-
 class CalculatorBrain {
     var accumulator: Double = 0
     
+    //history of the calculator so we can get previous and current screen items
     var historyArray: [Double] = []
-
-    var history: String = ""
-//    private var lastOperation: LastOperation = .Clear
+    //last operator used so we do correct function if equals is pressed
     var lastOperation: String = ""
 
+    //these are set so we can do the maths
     var numOnScreen: Double = 0
     var previousNumber:Double = 0
-    var result:Double = 0
 
     func add() -> Double{
-//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
-//            return acc + current
-//        })
         accumulator =  (previousNumber + numOnScreen)
         return accumulator
     }
     
     func multiply() -> Double{
-//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
-//            return acc * current
-//        })
         accumulator =  (previousNumber * numOnScreen)
-
         return accumulator
     }
     
     func minus() -> Double{
-//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
-//            return acc - current
-//        })
         accumulator = (previousNumber - numOnScreen)
         return accumulator
     }
     func divide() -> Double{
-//        accumulator = historyArray.reduce(0, { (acc, current) -> Double in
-//            return acc / current
-//        })
-        accumulator = (previousNumber / numOnScreen)
 
+        accumulator = (previousNumber / numOnScreen)
         return accumulator
     }
-    
-    func doOperation(operation: String) -> String {
-        var screenText  = "" //initilais screen text
-        history = "" // clear history
-        if operation == "=" || operation == "" || operation == "ac"{
-        } else {
-            previousNumber = self.getNumber()
-        }
-        return self.getNumberString()
-    }
-    
+
     func doFunction(operation: String) -> String {
-        var screenText  = ""
+        var screenText  = "" //holds screen text
         
+        //if there is a previous number entered should be 2 before end of arrat as we keep appending
         if historyArray.count - 2 >= 0 {
+            //store previous number
             previousNumber = historyArray[historyArray.count-2]
         }
+        //count-1 is the end of the array, the number just typed on screen
         numOnScreen = historyArray[historyArray.count-1]
 
+        //switch on the operator + - * /
         switch operation {
         case operations.plus.rawValue:
+            //if person previously pressed +  then add previous and last number
+            if lastOperation == "+" {
+                //set screen text to this result
+                screenText = String(add())
+                //make the result, or the accumulator the previous number now, so all other numbers are added to it
+                historyArray.append(accumulator)
+            } else {
+                //else if last operation was not + just return symbol
+                screenText = operations.plus.rawValue
+            }
+            //store last operator, so we know what operator to do
             lastOperation = "+"
-            screenText = operations.plus.rawValue
         case operations.minus.rawValue:
-            screenText = operations.minus.rawValue
+            if lastOperation == "-" {
+                screenText = String(minus())
+                historyArray.append(accumulator)
+            } else {
+                screenText = operations.minus.rawValue
+            }
             lastOperation = "-"
 
         case operations.divide.rawValue:
-            screenText = operations.divide.rawValue
+            if lastOperation == "/" {
+                screenText = String(minus())
+                historyArray.append(accumulator)
+            } else {
+                screenText = operations.divide.rawValue
+
+            }
             lastOperation = "/"
 
             break
         case operations.multiply.rawValue:
-            screenText = operations.multiply.rawValue
+            if lastOperation == "*" {
+                screenText = String(minus())
+                historyArray.append(accumulator)
+            } else {
+                screenText = operations.multiply.rawValue
+            }
             lastOperation = "*"
 
             break
         case operations.equals.rawValue:
-            
+            //if it is equals then check the last operator and do correct function
             if lastOperation == "+" {
                 screenText = String(add())
             } else if lastOperation == "-" {
@@ -120,9 +119,11 @@ class CalculatorBrain {
             } else {
                 screenText = ""
             }
+            //make sure result is appenended tto our history, so we add all numbers to this
             historyArray.append(accumulator)
             break
         case operations.ac.rawValue:
+            //clear the memory
             screenText = ""
             historyArray = []
             previousNumber = 0
@@ -135,9 +136,9 @@ class CalculatorBrain {
         return screenText
     }
     
-    func appendHistory(value: String) {
-        history.append(value)
-    }
+//    func appendHistory(value: String) {
+//        history.append(value)
+//    }
     
 //    func setOperand(operand: Double) {
 //        accumulator = operand
@@ -145,15 +146,15 @@ class CalculatorBrain {
 //        lastOperation = .Digit
 //    }
 
-    func getNumberString() -> String{
-        return history
-    }
-
-    func getNumber() -> Double{
-        if let numberDouble = Double(history) {
-            return numberDouble
-        } else {
-            return 0
-        }
-    }
+//    func getNumberString() -> String{
+//        return history
+//    }
+//
+//    func getNumber() -> Double{
+//        if let numberDouble = Double(history) {
+//            return numberDouble
+//        } else {
+//            return 0
+//        }
+//    }
 }
