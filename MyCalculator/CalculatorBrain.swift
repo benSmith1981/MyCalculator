@@ -19,7 +19,7 @@ enum operations: String {
 }
 
 class CalculatorBrain {
-    var accumulator: Double = 0
+    var accumulator: Double
     
     //history of the calculator so we can get previous and current screen items
     var historyArray: [Double] = []
@@ -30,6 +30,10 @@ class CalculatorBrain {
     var numOnScreen: Double = 0
     var previousNumber:Double = 0
 
+    init(acc: Double) {
+        self.accumulator = acc
+    }
+    
     func add() -> Double{
         accumulator =  (previousNumber + numOnScreen)
         return accumulator

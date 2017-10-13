@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5152B8D1F909F76009F16A9 /* CalculatorBrain2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5152B8C1F909F76009F16A9 /* CalculatorBrain2.swift */; };
 		B5BC07021F8F518B003A97BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BC07011F8F518B003A97BE /* AppDelegate.swift */; };
 		B5BC07041F8F518B003A97BE /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BC07031F8F518B003A97BE /* CalculatorViewController.swift */; };
 		B5BC07071F8F518B003A97BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5BC07051F8F518B003A97BE /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5152B8C1F909F76009F16A9 /* CalculatorBrain2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorBrain2.swift; sourceTree = "<group>"; };
 		B5BC06FE1F8F518B003A97BE /* MyCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BC07011F8F518B003A97BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BC07031F8F518B003A97BE /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				B5BC07031F8F518B003A97BE /* CalculatorViewController.swift */,
 				B5BC07051F8F518B003A97BE /* Main.storyboard */,
 				B5BC07321F8F5373003A97BE /* CalculatorBrain.swift */,
+				B5152B8C1F909F76009F16A9 /* CalculatorBrain2.swift */,
 				B5BC070B1F8F518B003A97BE /* Assets.xcassets */,
 				B5BC070D1F8F518B003A97BE /* LaunchScreen.storyboard */,
 				B5BC07101F8F518B003A97BE /* Info.plist */,
@@ -268,6 +271,7 @@
 				B5BC07041F8F518B003A97BE /* CalculatorViewController.swift in Sources */,
 				B5BC070A1F8F518B003A97BE /* MyCalculator.xcdatamodeld in Sources */,
 				B5BC07331F8F5373003A97BE /* CalculatorBrain.swift in Sources */,
+				B5152B8D1F909F76009F16A9 /* CalculatorBrain2.swift in Sources */,
 				B5BC07021F8F518B003A97BE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
